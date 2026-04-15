@@ -747,7 +747,7 @@
       <p class="hero-eyebrow">A Practical Guide to AI</p>
       <h1>You don't need to be<br/><em>a tech person</em><br/>to use AI well.</h1>
       <p class="hero-sub">Claude is the most thoughtful AI assistant available today — and it's genuinely useful for real life. This guide will show you exactly where to start, no matter where you're coming from.</p>
-      <a href="#start" class="hero-cta">
+      <a href="https://claude.ai/referral/nt1wtfeZPg" target="_blank" rel="noopener" class="hero-cta">
         Show me where to start
         <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
       </a>
@@ -889,7 +889,7 @@
       <h2 class="section-title reveal">Curated resources, no fluff.</h2>
       <p class="section-sub reveal">These are the places worth your time — from Anthropic directly and from people using it well.</p>
 
-      <div class="resource-group reveal">
+      <div class="resource-group reveal" id="resources-beginner">
         <h3 class="resource-group-title">Start here — official & free</h3>
         <div class="resource-links">
           <a href="https://anthropic.skilljar.com/claude-101" target="_blank" rel="noopener" class="resource-link">
@@ -919,7 +919,7 @@
         </div>
       </div>
 
-      <div class="resource-group reveal">
+      <div class="resource-group reveal" id="resources-deeper">
         <h3 class="resource-group-title">Go deeper</h3>
         <div class="resource-links">
           <a href="https://claude.com/product/cowork" target="_blank" rel="noopener" class="resource-link">
@@ -941,7 +941,7 @@
         </div>
       </div>
 
-      <div class="resource-group reveal">
+      <div class="resource-group reveal" id="resources-videos">
         <h3 class="resource-group-title">Watch it in action</h3>
         <div class="videos-row">
           <div class="video-card">
@@ -959,6 +959,28 @@
         </div>
       </div>
 
+    </div>
+  </section>
+
+  <!-- REFERRAL -->
+  <section style="background: var(--cream); padding: 0 24px 0;">
+    <div style="max-width: 580px; margin: 0 auto; padding: 48px 0 0;">
+      <div style="background: var(--white); border: 1.5px solid var(--border); border-radius: 20px; padding: 36px 32px; text-align: center;">
+        <span style="font-size: 32px; display: block; margin-bottom: 16px;">🎁</span>
+        <h3 style="font-family: 'Fraunces', serif; font-size: 24px; font-weight: 500; color: var(--navy); margin-bottom: 10px;">Try Claude free — on me.</h3>
+        <p style="font-size: 15px; color: var(--text-muted); line-height: 1.65; margin-bottom: 28px;">I have a limited referral available for the first 3 people. Use my link to get started with Claude today.</p>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <a href="https://claude.ai/referral/nt1wtfeZPg" target="_blank" rel="noopener" style="display: flex; align-items: center; justify-content: space-between; background: var(--navy); color: var(--white); text-decoration: none; padding: 14px 24px; border-radius: 12px; font-size: 15px; font-weight: 600; transition: background 0.2s;" onmouseover="this.style.background='var(--navy-light)'" onmouseout="this.style.background='var(--navy)'">
+            <span>🤖 Claude — Get Started Free</span>
+            <span style="font-size: 12px; opacity: 0.7;">Use referral →</span>
+          </a>
+          <a href="https://claude.ai/referral/nt1wtfeZPg?s=cowork&v=apps" target="_blank" rel="noopener" style="display: flex; align-items: center; justify-content: space-between; background: var(--terra); color: var(--white); text-decoration: none; padding: 14px 24px; border-radius: 12px; font-size: 15px; font-weight: 600; transition: background 0.2s;" onmouseover="this.style.background='var(--terra-light)'" onmouseout="this.style.background='var(--terra)'">
+            <span>⚙️ Claude Cowork — Desktop App</span>
+            <span style="font-size: 12px; opacity: 0.7;">Use referral →</span>
+          </a>
+        </div>
+        <p style="font-size: 12px; color: var(--text-muted); margin-top: 16px;">⚡ Limited to first 3 uses — first come, first served.</p>
+      </div>
     </div>
   </section>
 
@@ -1050,7 +1072,7 @@
   </footer>
 
   <script>
-    // Path card click → select level + scroll to form
+    // Path card click → scroll to correct resource section
     function selectLevelAndScroll(level) {
       // Select the matching level option in the form
       document.querySelectorAll('.level-option').forEach(opt => {
@@ -1060,8 +1082,14 @@
           selectedLevel = level;
         }
       });
-      // Scroll to signup section
-      document.getElementById('signup').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // Scroll to matching resource section
+      const targets = {
+        'brand-new': 'resources-beginner',
+        'curious': 'resources-deeper',
+        'ready': 'resources-videos'
+      };
+      const target = document.getElementById(targets[level]);
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     // Scroll reveal
