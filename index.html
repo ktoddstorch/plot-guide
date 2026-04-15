@@ -229,6 +229,20 @@
       overflow: hidden;
     }
 
+    .path-card .click-hint {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--terra);
+      margin-top: 20px;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .path-card:hover .click-hint { opacity: 1; }
+
     .path-card::before {
       content: '';
       position: absolute;
@@ -761,7 +775,7 @@
       <p class="section-sub reveal">Pick the path that fits. No judgment — we all started somewhere.</p>
       <div class="path-cards">
 
-        <div class="path-card reveal">
+        <div class="path-card reveal" data-level="brand-new" onclick="selectLevelAndScroll('brand-new')">
           <span class="path-icon">🌱</span>
           <h3>Brand New</h3>
           <p>You've heard about AI but haven't really used it — or you tried it once and weren't sure what to do with it.</p>
@@ -771,9 +785,10 @@
             <li>Take Anthropic's free Claude 101 course</li>
             <li>Ask Claude to explain itself — it's great at that</li>
           </ul>
+          <div class="click-hint">Start here → <span>go to sign up</span></div>
         </div>
 
-        <div class="path-card reveal">
+        <div class="path-card reveal" data-level="curious" onclick="selectLevelAndScroll('curious')">
           <span class="path-icon">🚶</span>
           <h3>Curious Explorer</h3>
           <p>You've played around with AI and seen the potential, but you're not sure how to make it a regular part of your life.</p>
@@ -783,9 +798,10 @@
             <li>Use it daily for one recurring task for a week</li>
             <li>Explore the use cases below that match your life</li>
           </ul>
+          <div class="click-hint">This is me → <span>go to sign up</span></div>
         </div>
 
-        <div class="path-card reveal">
+        <div class="path-card reveal" data-level="ready" onclick="selectLevelAndScroll('ready')">
           <span class="path-icon">🚀</span>
           <h3>Ready to Go Deep</h3>
           <p>You're comfortable with AI and ready to build real workflows, automate tasks, and get serious leverage from it.</p>
@@ -795,6 +811,7 @@
             <li>Connect Claude to your calendar, email, and tools</li>
             <li>Explore Claude Cowork for desktop automation</li>
           </ul>
+          <div class="click-hint">Let's go → <span>go to sign up</span></div>
         </div>
 
       </div>
@@ -1033,6 +1050,20 @@
   </footer>
 
   <script>
+    // Path card click → select level + scroll to form
+    function selectLevelAndScroll(level) {
+      // Select the matching level option in the form
+      document.querySelectorAll('.level-option').forEach(opt => {
+        opt.classList.remove('selected');
+        if (opt.dataset.level === level) {
+          opt.classList.add('selected');
+          selectedLevel = level;
+        }
+      });
+      // Scroll to signup section
+      document.getElementById('signup').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
     // Scroll reveal
     const revealEls = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
@@ -1047,7 +1078,12 @@
 
     // Interest chips
     document.querySelectorAll('.interest-chip').forEach(chip => {
-      chip.addEventListener('click', () => chip.classList.toggle('selected'));
+      chip.addEventListener('click', function(e) {
+        e.preventDefault();
+        this.classList.toggle('selected');
+        const cb = this.querySelector('input[type="checkbox"]');
+        cb.checked = !cb.checked;
+      });
     });
 
     // Level selector
@@ -1073,7 +1109,8 @@
         return;
       }
 
-      const interests = Array.from(document.querySelectorAll('.interest-chip.selected input'))
+      const interests = Array.from(document.querySelectorAll('.interest-chip input[type="checkbox"]'))
+        .filter(cb => cb.checked)
         .map(cb => cb.value);
 
       const btn = document.getElementById('submitBtn');
