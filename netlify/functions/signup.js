@@ -1,4 +1,7 @@
 exports.handler = async function (event) {
+  console.log("Function started, method:", event.httpMethod);
+  console.log("Body received:", event.body);
+  
   if (event.httpMethod !== "POST") {
     return { statusCode: 405, body: "Method Not Allowed" };
   }
@@ -19,6 +22,9 @@ exports.handler = async function (event) {
   const SUPABASE_KEY = process.env.SUPABASE_PERSONAL_OS_SERVICE_KEY;
   const TODOIST_TOKEN = process.env.TODOIST_API_TOKEN;
   const TODOIST_PROJECT_ID = "6gMhqpmj9RFJwq6c";
+
+  console.log("Todoist token exists:", !!TODOIST_TOKEN);
+  console.log("Todoist token length:", TODOIST_TOKEN ? TODOIST_TOKEN.length : 0);
 
   const firstName = name.split(" ")[0];
   const lastName = name.split(" ").slice(1).join(" ") || "";
@@ -57,7 +63,7 @@ exports.handler = async function (event) {
 
   // Create Todoist task in Work Log project
   try {
-    await fetch("https://api.todoist.com/rest/v2/tasks", {
+    const todoistRes = await fetch("https://api.todoist.com/rest/v2/tasks", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -69,6 +75,8 @@ exports.handler = async function (event) {
         project_id: TODOIST_PROJECT_ID
       })
     });
+    const todoistBody = await todoistRes.text();
+    console.log("Todoist status:", todoistRes.status, "body:", todoistBody);
   } catch (e) {
     console.error("Todoist task failed:", e);
   }
