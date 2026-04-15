@@ -63,7 +63,7 @@ exports.handler = async function (event) {
 
   // Create Todoist task in Work Log project
   try {
-    const todoistRes = await fetch("https://api.todoist.com/rest/v2/tasks", {
+    const todoistRes = await fetch("https://api.todoist.com/api/v1/tasks", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
